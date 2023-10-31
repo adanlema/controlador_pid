@@ -15,6 +15,9 @@
 #define LED_PUERTO   PUERTO_GPIOC
 #define LED_PIN      13
 
+#define PWM_PUERTO   PUERTO_GPIOA
+#define PWM_PIN      6
+
 #define DIGITS_GPIO  PUERTO_GPIOB
 
 #define DIGIT_1_PORT DIGITS_GPIO

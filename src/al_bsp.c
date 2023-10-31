@@ -8,6 +8,7 @@
 
 #include "al_gpio.h"
 #include "al_bsp.h"
+#include "al_adc.h"
 #include "al_bluepill.h"
 /*==================[macros and definitions]=================================*/
 
@@ -38,10 +39,12 @@ board_t board_Create(void) {
 
     /*  Configuracion de pines*/
     config_relojext_init();
+    ADCConvertInit();
     // SysTick_Config(SystemCoreClock / 1000);
     /*  Entradas  */
     board.boton = DigitalInput_Create(KEY_F2_PORT, KEY_F2_PIN, false);
     /*  Salidas  */
+    board.pwm = DigitalOutput_Create(PWM_PUERTO, PWM_PIN);
     board.led = DigitalOutput_Create(LED_PUERTO, LED_PIN);
     return &board;
 }

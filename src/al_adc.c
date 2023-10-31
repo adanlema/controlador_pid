@@ -1,9 +1,9 @@
 // Copyright 2023, Adan Lema <adanlema@hotmail.com>
 /*==================[inclusions]=============================================*/
-#include "al_gpio.h"
-#include "al_bsp.h"
-#include "al_bluepill.h"
+#include "stm32f1xx_hal.h"
+#include "hal.h"
 #include "al_adc.h"
+#include <stdint.h>
 /*==================[macros and definitions]=================================*/
 
 /*==================[internal data declaration]==============================*/
@@ -11,29 +11,30 @@
 /*==================[internal functions declaration]=========================*/
 
 /*==================[internal data definition]===============================*/
-// static uint32_t msTicks = 0;
+
 /*==================[external data definition]===============================*/
 
 /*==================[internal functions definition]==========================*/
 
 /*==================[external functions definition]==========================*/
-int main(void) {
+void ADCConvertInit() {
+    // Habilitar el reloj para el ADC1
+    RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
+    // Configurar el canal de entrada del ADC (PA0)
+    ADC1->SQR3 = 0;
+    // Configurar la frecuencia de muestreo para una Fs de 20 kHz
+    ADC1->SMPR2 = ADC_SMPR2_SMP0;
+    // Habilitar el ADC
+    ADC1->CR2 = ADC_CR2_ADON;
+}
+void ADC_StartConvert() {
+    ADC1->CR2 |= ADC_CR2_ADON;
+    while (!(ADC1->SR & ADC_SR_EOC))
+        continue;
+}
+uint16_t ADC_GetValue() {
+    return ADC1->DR;
+}
 
-    board_t bp = board_Create();
-    while (true) {
-        ADC_StartConvert();
-        uint16_t adcValue = ADC_GetValue();
-        if (adcValue > 2048) {
-            DigitalOutput_Activate(bp->led);
-        } else {
-            DigitalOutput_Desactivate(bp->led);
-        }
-    }
-}
-/*
-void SysTick_Handler(void) {
-    // msTicks++;
-}
-*/
 /**  doxygen end group definition */
 /*==================[end of file]============================================*/
