@@ -8,9 +8,9 @@
 El reloj interno del micro esta a 8MHz y el periodo del PWM se calcula como:
 T_PWM = (1+ARR) * T_CLK
 Lo que significa que el ARR debe ser igual a: ARR = (T_PWM / T_CLK) - 1
-Si F_PWM = 200KHz entonces ARR = 39
+Si F_PWM = 5KHz entonces ARR = 1599
 */
-#define PWM_PERIOD 39
+#define PWM_PERIOD 1599
 /*==================[typedef]================================================*/
 
 /*==================[external data declaration]==============================*/

@@ -3,6 +3,7 @@
 #include "stm32f1xx_hal.h"
 #include "hal.h"
 #include "al_adc.h"
+#include "al_bluepill.h"
 #include <stdint.h>
 /*==================[macros and definitions]=================================*/
 
@@ -20,9 +21,15 @@
 void ADCConvertInit() {
     // Habilitar el reloj para el ADC1
     RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
+
+    // Pin PA0 como entrada analogica - PA0 es el canal1 del ADC1
+    RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
+    GPIOA->CRL &= ~((GPIO_MOD_MASK | GPIO_CNF_MASK) << (ADC_PIN * 4));
+    GPIOA->CRL |= ((GPIO_MOD_INP | GPIO_CNF_INP_ANG) << (ADC_PIN * 4));
+
     // Configurar el canal de entrada del ADC (PA0)
     ADC1->SQR3 = 0;
-    // Configurar la frecuencia de muestreo para una Fs de 20 kHz
+    // Configuracion para una Fs = 20 [kHz] aproximadamente
     ADC1->SMPR2 = ADC_SMPR2_SMP0;
     // Habilitar el ADC
     ADC1->CR2 = ADC_CR2_ADON;
