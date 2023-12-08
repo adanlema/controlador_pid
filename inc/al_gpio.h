@@ -63,9 +63,10 @@ bool DigitalInput_HasDesactivate(DigitalInput_t self);
  * Retorna el puntero de la esctructura creada.
  * @param port Puerto
  * @param pin Pin
+ * @param inverted Si trabajo con Pull-Down(false) o Pull-Up(true)
  * @return DigitalOutput_t
  */
-DigitalOutput_t DigitalOutput_Create(uint8_t port, uint8_t pin);
+DigitalOutput_t DigitalOutput_Create(uint8_t port, uint8_t pin, bool inverted);
 /**
  * @brief Digital Output Get State
  * Retorna el valor del pin.

@@ -38,6 +38,12 @@
 #define ADC_PUERTO   PUERTO_GPIOA
 #define ADC_PIN      0
 
+#define TX_PUERTO    PUERTO_GPIOA
+#define TX_PIN       9
+
+#define RX_PUERTO    PUERTO_GPIOA
+#define RX_PIN       10
+
 /*==================[typedef]================================================*/
 static GPIO_TypeDef * const puertos_gpio[] = {GPIOA, GPIOB, GPIOC, GPIOD};
 /*==================[external data declaration]==============================*/

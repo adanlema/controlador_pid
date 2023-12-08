@@ -20,6 +20,7 @@ struct DigitalInput {
 struct DigitalOutput {
     uint8_t port;
     uint8_t pin;
+    bool    inverted;
     bool    ocupado;
 };
 /*==================[internal data declaration]==============================*/
@@ -115,7 +116,7 @@ bool DigitalInput_HasDesactivate(DigitalInput_t self) {
 //=================================================================================
 /* Funciones para las Salidas */
 //=================================================================================
-DigitalOutput_t DigitalOutput_Create(uint8_t port, uint8_t pin) {
+DigitalOutput_t DigitalOutput_Create(uint8_t port, uint8_t pin, bool inverted) {
     uint8_t posicion = 0;
     for (int i = 0; (i < CANTIDAD) & (posicion == 0); i++) {
         if (Output[i].ocupado == false)
@@ -124,6 +125,7 @@ DigitalOutput_t DigitalOutput_Create(uint8_t port, uint8_t pin) {
     DigitalOutput_t self        = &Output[posicion];
     self->port                  = port;
     self->pin                   = pin;
+    self->inverted              = inverted;
     self->ocupado               = true;
 
     GPIO_InitTypeDef pin_config = {0};
@@ -155,13 +157,26 @@ DigitalOutput_t DigitalOutput_Create(uint8_t port, uint8_t pin) {
 }
 
 bool DigitalOutput_GetState(DigitalOutput_t self) {
-    return HAL_GPIO_ReadPin(puertos_gpio[self->port], 1 << self->pin);
+    if (self->inverted == 0) {
+        return HAL_GPIO_ReadPin(puertos_gpio[self->port], 1 << self->pin);
+    } else {
+        return !(HAL_GPIO_ReadPin(puertos_gpio[self->port], 1 << self->pin));
+    }
 }
 void DigitalOutput_Activate(DigitalOutput_t self) {
-    HAL_GPIO_WritePin(puertos_gpio[self->port], 1 << self->pin, GPIO_PIN_SET);
+    if (self->inverted == 0) {
+        HAL_GPIO_WritePin(puertos_gpio[self->port], 1 << self->pin, GPIO_PIN_SET);
+    } else {
+        HAL_GPIO_WritePin(puertos_gpio[self->port], 1 << self->pin, GPIO_PIN_RESET);
+    }
 }
+
 void DigitalOutput_Desactivate(DigitalOutput_t self) {
-    HAL_GPIO_WritePin(puertos_gpio[self->port], 1 << self->pin, GPIO_PIN_RESET);
+    if (self->inverted == 0) {
+        HAL_GPIO_WritePin(puertos_gpio[self->port], 1 << self->pin, GPIO_PIN_RESET);
+    } else {
+        HAL_GPIO_WritePin(puertos_gpio[self->port], 1 << self->pin, GPIO_PIN_SET);
+    }
 }
 void DigitalOutput_Toggle(DigitalOutput_t self) {
     HAL_GPIO_TogglePin(puertos_gpio[self->port], 1 << self->pin);

@@ -11,6 +11,7 @@
 #include "al_adc.h"
 #include "al_bluepill.h"
 #include "al_pwm.h"
+#include "al_uart.h"
 /*==================[macros and definitions]=================================*/
 
 /*==================[internal data declaration]==============================*/
@@ -42,11 +43,12 @@ board_t board_Create(void) {
     config_relojext_init();
     ADCConvertInit();
     PWM_Init();
-    // SysTick_Config(SystemCoreClock / 1000);
+    UART_Init();
+    SysTick_Config(SystemCoreClock / 1000);
     /*  Entradas  */
     // -------------------------------
     /*  Salidas  */
-    board.led = DigitalOutput_Create(LED_PUERTO, LED_PIN);
+    board.led = DigitalOutput_Create(LED_PUERTO, LED_PIN, true);
     return &board;
 }
 /**  doxygen end group definition */
