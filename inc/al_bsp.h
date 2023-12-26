@@ -8,9 +8,11 @@
 /*==================[macros]=================================================*/
 
 /*==================[typedef]================================================*/
-//! Estructura de la placa que utilizaremos para el reloj despertador.
+//! Estructura de la placa que utilizaremos para el controlador PID.
 struct board_s {
+    DigitalInput_t  boton;
     DigitalOutput_t led;
+    DigitalOutput_t salida;
 };
 //! Creacion de un tipo de dato que es un puntero a una estructura de la placa.
 typedef struct board_s * board_t;

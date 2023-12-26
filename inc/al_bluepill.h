@@ -29,6 +29,12 @@
 #define PUERTO_GPIOC 2
 #define PUERTO_GPIOD 3
 
+#define BOTON_PUERTO PUERTO_GPIOB
+#define BOTON_PIN    12
+
+#define SAL_PUERTO   PUERTO_GPIOB
+#define SAL_PIN      13
+
 #define LED_PUERTO   PUERTO_GPIOC
 #define LED_PIN      13
 

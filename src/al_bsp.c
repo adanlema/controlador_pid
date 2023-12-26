@@ -46,9 +46,10 @@ board_t board_Create(void) {
     UART_Init();
     SysTick_Config(SystemCoreClock / 1000);
     /*  Entradas  */
-    // -------------------------------
+    board.boton = DigitalInput_Create(BOTON_PUERTO, BOTON_PIN, true);
     /*  Salidas  */
-    board.led = DigitalOutput_Create(LED_PUERTO, LED_PIN, true);
+    board.led    = DigitalOutput_Create(LED_PUERTO, LED_PIN, true);
+    board.salida = DigitalOutput_Create(SAL_PUERTO, SAL_PIN, false);
     return &board;
 }
 /**  doxygen end group definition */
